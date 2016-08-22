@@ -312,7 +312,7 @@ typedef NS_ENUM(NSUInteger, MGLTextTranslateAnchor) {
 @property (nonatomic, null_resettable) MGLStyleValue<NSValue *> *iconTextFit;
 
 /**
- Size of the additional area added to dimensions determined by `iconTextFit`, in clockwise order: top, right, bottom, left.
+ Size of the additional area added to dimensions determined by `iconTextFit`, in counterclockwise order: top, left, bottom, right.
 
  This property is measured in points.
  

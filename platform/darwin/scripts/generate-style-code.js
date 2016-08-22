@@ -2,11 +2,27 @@
 
 const fs = require('fs');
 const ejs = require('ejs');
-const spec = require('mapbox-gl-style-spec').latest;
 const colorParser = require('csscolorparser');
 
 const prefix = 'MGL';
 const suffix = 'StyleLayer';
+
+global.isObjectNotArray = function(object) {
+    return (typeof object === 'object' && !Array.isArray(object));
+}
+
+global.override = function(base, overrides) {
+    Object.keys(overrides).forEach(function(key) {
+    if (isObjectNotArray(base[key]) && isObjectNotArray(overrides[key])) {
+      override(base[key], overrides[key]);
+    } else {
+      base[key] = overrides[key];
+    }
+  });
+  return base;
+}
+
+const spec = override(require('mapbox-gl-style-spec').latest, require('./style-spec-overrides-v8.json'));
 
 global.camelize = function (str) {
     return str.replace(/(?:^|-)(.)/g, function (_, x) {

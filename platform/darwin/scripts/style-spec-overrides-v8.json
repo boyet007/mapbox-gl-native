@@ -1,0 +1,7 @@
+{
+  "layout_symbol": {
+    "icon-text-fit-padding": {
+      "doc": "Size of the additional area added to dimensions determined by `icon-text-fit`, in counterclockwise order: top, left, bottom, right."
+    }
+  }
+}
