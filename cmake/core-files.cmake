@@ -55,6 +55,7 @@ set(MBGL_CORE_FILES
     # gl
     include/mbgl/gl/gl.hpp
     include/mbgl/gl/implementation.hpp
+    src/mbgl/gl/attribute.cpp
     src/mbgl/gl/attribute.hpp
     src/mbgl/gl/color_mode.cpp
     src/mbgl/gl/color_mode.hpp
@@ -182,16 +183,16 @@ set(MBGL_CORE_FILES
     src/mbgl/renderer/symbol_bucket.hpp
 
     # shader
+    src/mbgl/shader/attributes.hpp
+    src/mbgl/shader/circle_attributes.hpp
     src/mbgl/shader/circle_shader.cpp
     src/mbgl/shader/circle_shader.hpp
     src/mbgl/shader/circle_uniforms.hpp
-    src/mbgl/shader/circle_vertex.cpp
-    src/mbgl/shader/circle_vertex.hpp
+    src/mbgl/shader/collision_box_attributes.hpp
     src/mbgl/shader/collision_box_shader.cpp
     src/mbgl/shader/collision_box_shader.hpp
     src/mbgl/shader/collision_box_uniforms.hpp
-    src/mbgl/shader/collision_box_vertex.cpp
-    src/mbgl/shader/collision_box_vertex.hpp
+    src/mbgl/shader/fill_attributes.hpp
     src/mbgl/shader/fill_outline_pattern_shader.cpp
     src/mbgl/shader/fill_outline_pattern_shader.hpp
     src/mbgl/shader/fill_outline_shader.cpp
@@ -202,8 +203,7 @@ set(MBGL_CORE_FILES
     src/mbgl/shader/fill_shader.hpp
     src/mbgl/shader/fill_uniforms.cpp
     src/mbgl/shader/fill_uniforms.hpp
-    src/mbgl/shader/fill_vertex.cpp
-    src/mbgl/shader/fill_vertex.hpp
+    src/mbgl/shader/line_attributes.hpp
     src/mbgl/shader/line_pattern_shader.cpp
     src/mbgl/shader/line_pattern_shader.hpp
     src/mbgl/shader/line_sdf_shader.cpp
@@ -212,22 +212,18 @@ set(MBGL_CORE_FILES
     src/mbgl/shader/line_shader.hpp
     src/mbgl/shader/line_uniforms.cpp
     src/mbgl/shader/line_uniforms.hpp
-    src/mbgl/shader/line_vertex.cpp
-    src/mbgl/shader/line_vertex.hpp
+    src/mbgl/shader/raster_attributes.hpp
     src/mbgl/shader/raster_shader.cpp
     src/mbgl/shader/raster_shader.hpp
     src/mbgl/shader/raster_uniforms.hpp
-    src/mbgl/shader/raster_vertex.cpp
-    src/mbgl/shader/raster_vertex.hpp
     src/mbgl/shader/shaders.hpp
+    src/mbgl/shader/symbol_attributes.hpp
     src/mbgl/shader/symbol_icon_shader.cpp
     src/mbgl/shader/symbol_icon_shader.hpp
     src/mbgl/shader/symbol_sdf_shader.cpp
     src/mbgl/shader/symbol_sdf_shader.hpp
     src/mbgl/shader/symbol_uniforms.cpp
     src/mbgl/shader/symbol_uniforms.hpp
-    src/mbgl/shader/symbol_vertex.cpp
-    src/mbgl/shader/symbol_vertex.hpp
     src/mbgl/shader/uniforms.hpp
 
     # sprite
