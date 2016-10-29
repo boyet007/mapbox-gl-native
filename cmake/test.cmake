@@ -14,6 +14,7 @@ target_include_directories(mbgl-test
     PRIVATE test/include
     PRIVATE test/src
     PRIVATE platform/default
+    PRIVATE ${MBGL_GENERATED}/include
 )
 
 if(DEFINED ENV{CI})
