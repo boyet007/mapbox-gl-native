@@ -17,21 +17,27 @@ if (!vertex_file || !fragment_file || !output_file) {
 var components = path.basename(vertex_file).split('.');
 var shader_name = components[0];
 
-var pragma_mapbox_regex = /(\s*)#pragma\s+mapbox\s*:\s+(define|initialize)\s+(low|medium|high)p\s+(float|vec(?:2|3|4))\s+(.*)/;
+function applyPragmas(source, pragmas) {
+    return source.replace(/#pragma mapbox: ([\w]+) ([\w]+) ([\w]+) ([\w]+)/g, (match, operation, precision, type, name) => {
+        return pragmas[operation]
+            .replace(/\{type\}/g, type)
+            .replace(/\{precision\}/g, precision)
+            .replace(/\{name\}/g, name);
+    });
+}
 
-function source(file) {
-    return '\n' + fs.readFileSync(file, 'utf8').split('\n').map(function(line) {
-        var params = line.match(pragma_mapbox_regex);
-        if (params) {
-            if (params[2] === 'define') {
-                return params[1] + 'uniform ' + params[3] + 'p ' + params[4] + ' u_' + params[5] + ';';
-            } else {
-                return params[1] + params[3] + 'p ' + params[4] + ' ' + params[5] + ' = u_' + params[5] + ';';
-            }
-        } else {
-            return line;
-        }
-    }).join('\n');
+function vertexSource() {
+    return '\n' + applyPragmas(fs.readFileSync(vertex_file, 'utf8'), {
+        define: "attribute {precision} {type} a_{name};\nvarying {precision} {type} {name};",
+        initialize: "{name} = a_{name};"
+    });
+}
+
+function fragmentSource() {
+    return '\n' + applyPragmas(fs.readFileSync(fragment_file, 'utf8'), {
+        define: "varying {precision} {type} {name};",
+        initialize: ""
+    });
 }
 
 var content = "#pragma once\n" +
@@ -46,8 +52,8 @@ var content = "#pragma once\n" +
 "class " + shader_name + " {\n" +
 "public:\n" +
 "    static constexpr const char* name = \"" + shader_name + "\";" +
-"    static constexpr const char* vertexSource = R\"MBGL_SHADER(" + source(vertex_file) + ")MBGL_SHADER\";\n" +
-"    static constexpr const char* fragmentSource = R\"MBGL_SHADER(" + source(fragment_file) + ")MBGL_SHADER\";\n" +
+"    static constexpr const char* vertexSource = R\"MBGL_SHADER(" + vertexSource() + ")MBGL_SHADER\";\n" +
+"    static constexpr const char* fragmentSource = R\"MBGL_SHADER(" + fragmentSource() + ")MBGL_SHADER\";\n" +
 "};\n" +
 "\n" +
 "} // namespace shaders\n" +
