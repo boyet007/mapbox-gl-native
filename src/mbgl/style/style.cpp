@@ -566,7 +566,7 @@ void Style::onLayerPaintPropertyChanged(Layer&) {
 
 void Style::onLayerLayoutPropertyChanged(Layer& layer) {
     layer.accept(QueueSourceReloadVisitor { updateBatch });
-    observer->onUpdate(Update::Layout);
+    observer->onUpdate(Update::Layout | Update::RecalculateStyle);
 }
 
 void Style::dumpDebugLogs() const {
