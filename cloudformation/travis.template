@@ -8,42 +8,6 @@
             "Properties": {
                 "Policies": [
                     {
-                        "PolicyName": "list-testing-old",
-                        "PolicyDocument": {
-                            "Statement": [
-                                {
-                                    "Action": [
-                                        "s3:ListBucket"
-                                    ],
-                                    "Effect": "Allow",
-                                    "Resource": [
-                                        "arn:aws:s3:::mapbox-gl-testing"
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "PolicyName": "build-testing-old",
-                        "PolicyDocument": {
-                            "Statement": [
-                                {
-                                    "Action": [
-                                        "s3:DeleteObject",
-                                        "s3:GetObject",
-                                        "s3:GetObjectAcl",
-                                        "s3:PutObject",
-                                        "s3:PutObjectAcl"
-                                    ],
-                                    "Effect": "Allow",
-                                    "Resource": [
-                                        "arn:aws:s3:::mapbox-gl-testing/*"
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    {
                         "PolicyName": "list-testing",
                         "PolicyDocument": {
                             "Statement": [
@@ -145,6 +109,24 @@
                                             "Arn"
                                         ]
                                     }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "PolicyName": "cloudwatch-metrics",
+                        "PolicyDocument": {
+                            "Statement": [
+                                {
+                                    "Action": [
+                                        "cloudwatch:PutMetricData",
+                                        "cloudwatch:GetMetricData",
+                                        "cloudwatch:GetMetricStatistics"
+                                    ],
+                                    "Effect": "Allow",
+                                    "Resource": [
+                                        "*"
+                                    ]
                                 }
                             ]
                         }
