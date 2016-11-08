@@ -9,7 +9,6 @@
 #include <mbgl/renderer/bucket.hpp>
 
 #include <mbgl/gl/context.hpp>
-#include <mbgl/gl/shader_parameters.hpp>
 
 #include <mbgl/shader/fill_vertex.hpp>
 #include <mbgl/shader/raster_vertex.hpp>
@@ -69,7 +68,7 @@ struct FrameData {
 
 class Painter : private util::noncopyable {
 public:
-    Painter(gl::Context&, const TransformState&);
+    Painter(gl::Context&, const TransformState&, float pixelRatio);
     ~Painter();
 
     void render(const style::Style&,
@@ -153,9 +152,6 @@ private:
     LineAtlas* lineAtlas = nullptr;
 
     FrameHistory frameHistory;
-    gl::ShaderParameters shaderParameters;
-    gl::ShaderParameters shaderParametersOverdraw;
-
     std::unique_ptr<Shaders> shaders;
 #ifndef NDEBUG
     std::unique_ptr<Shaders> overdrawShaders;

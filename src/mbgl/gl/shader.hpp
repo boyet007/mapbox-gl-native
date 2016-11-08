@@ -22,17 +22,13 @@ public:
     AttributeLocation getAttributeLocation(const char* uniform) const;
     UniformLocation getUniformLocation(const char* uniform) const;
 
-    enum Defines : bool {
-        None = false,
-        Overdraw = true,
-    };
-
 protected:
+    
     Shader(const char* name_,
            const char* vertex,
            const char* fragment,
            Context&,
-           gl::ShaderParameters&);
+           gl::ShaderParameters& );
 
 private:
     bool compileShader(UniqueShader&, const char *source);

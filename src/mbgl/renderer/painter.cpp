@@ -23,6 +23,7 @@
 #include <mbgl/geometry/line_atlas.hpp>
 #include <mbgl/text/glyph_atlas.hpp>
 
+#include <mbgl/gl/shader_parameters.hpp>
 #include <mbgl/shader/shaders.hpp>
 
 #include <mbgl/algorithm/generate_clip_ids.hpp>
@@ -43,7 +44,7 @@ namespace mbgl {
 
 using namespace style;
 
-Painter::Painter(gl::Context& context_, const TransformState& state_)
+Painter::Painter(gl::Context& context_, const TransformState& state_, float pixelRatio)
     : context(context_),
       state(state_),
       tileTriangleVertexBuffer(context.createVertexBuffer(std::vector<FillVertex> {{
@@ -67,6 +68,16 @@ Painter::Painter(gl::Context& context_, const TransformState& state_)
             { 0, util::EXTENT, 0, 32767 },
             { util::EXTENT, util::EXTENT, 32767, 32767 }
       }})) {
+      
+    #ifndef NDEBUG
+        gl::debugging::enable();
+    #endif
+        gl::ShaderParameters shaderParameters = gl::ShaderParameters{ pixelRatio, false };
+        shaders = std::make_unique<Shaders>(context, shaderParameters);
+    #ifndef NDEBUG
+        gl::ShaderParameters shaderParametersOverdraw = gl::ShaderParameters{ pixelRatio, true };
+        overdrawShaders = std::make_unique<Shaders>(context, shaderParametersOverdraw);
+    #endif
 }
 
 Painter::~Painter() = default;
@@ -85,15 +96,7 @@ void Painter::render(const Style& style, const FrameData& frame_, View& view, Sp
         context.setDirtyState();
     }
     
-    #ifndef NDEBUG
-        gl::debugging::enable();
-    #endif
-        shaderParameters = gl::ShaderParameters{ frame.pixelRatio, false };
-        shaders = std::make_unique<Shaders>(context, shaderParameters);
-    #ifndef NDEBUG
-        shaderParametersOverdraw = gl::ShaderParameters{ frame.pixelRatio, true };
-        overdrawShaders = std::make_unique<Shaders>(context, shaderParametersOverdraw);
-    #endif
+
 
 
     PaintParameters parameters {
